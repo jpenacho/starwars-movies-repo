@@ -8,19 +8,28 @@ info:
 spring:
   application:
     name: starwars-movies-repo
-  profiles:
-    active: dev
   webflux:
-    base-path: /api/v1/
+    base-path: /api
   datasource:
-    url: jdbc:h2:mem:mydb
+    url: jdbc:h2:mem:starwarsrepo
     username: sa
-    password: password
+    password:
     driverClassName: org.h2.Driver
   jpa:
-    spring.jpa.database-platform: org.hibernate.dialect.H2Dialect
+    database-platform: org.hibernate.dialect.H2Dialect
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+        format_sql: true
+    hibernate:
+      ddl-auto: create-drop
+    defer-datasource-initialization: true
   h2:
-    console.enabled: true
+    console:
+      enabled: true
+      # default path: h2-console
+      path: /h2-ui
 
 server:
   port: 8080
@@ -49,3 +58,15 @@ springdoc:
     operations-sorter: alpha
     path: /swagger-ui.html
     tags-sorter: alpha
+
+logging:
+  level:
+    org:
+      hibernate:
+        sql: info
+
+external:
+  api:
+    swapi:
+      star-war:
+        base-url: https://swapi.dev/api/

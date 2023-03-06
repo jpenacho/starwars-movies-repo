@@ -1,8 +1,8 @@
 plugins {
-	id 'java'
-	id 'org.springframework.boot' version '3.0.3'
-	id 'io.spring.dependency-management' version '1.1.0'
-	id "io.freefair.lombok" version "6.6.3"
+    id 'java'
+    id 'org.springframework.boot' version '3.0.3'
+    id 'io.spring.dependency-management' version '1.1.0'
+    id "io.freefair.lombok" version "6.6.3"
 }
 
 group = 'com.jpenacho.starwars-movie-repo'
@@ -10,46 +10,55 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '17'
 
 configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
-	}
+    all*.exclude module: 'spring-boot-starter-logging'
+
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
 }
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 ext {
-	set('springCloudVersion', "2022.0.1")
-	set('openAPIVersion', "1.6.11")
-	set('mapStructVersion', "1.5.3.Final")
+    set('springCloudVersion', "2022.0.1")
+    set('openAPIVersion', "2.0.2")
+    set('mapStructVersion', "1.5.3.Final")
+    set('lombokMapstructBindingVersion', "0.2.0")
+    set('instancioVersion', "2.10.0")
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-webflux'
-	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
-	implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-log4j2'
 
-	implementation "org.springdoc:springdoc-openapi-webflux-ui:${openAPIVersion}"
+    implementation "org.springdoc:springdoc-openapi-starter-webflux-ui:${openAPIVersion}"
 
-	implementation "org.mapstruct:mapstruct:${mapStructVersion}"
-	annotationProcessor "org.mapstruct:mapstruct-processor:${mapStructVersion}"
+    implementation "org.mapstruct:mapstruct:${mapStructVersion}"
+    testImplementation 'junit:junit:4.13.1'
+    annotationProcessor "org.mapstruct:mapstruct-processor:${mapStructVersion}"
+    annotationProcessor "org.projectlombok:lombok-mapstruct-binding:${lombokMapstructBindingVersion}"
 
-	runtimeOnly 'com.h2database:h2'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'io.projectreactor:reactor-test'
+    implementation 'org.apache.logging.log4j:log4j-slf4j-impl:2.13.0'
 
+    implementation 'com.h2database:h2'
 
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'io.projectreactor:reactor-test'
+    testAnnotationProcessor "org.mapstruct:mapstruct-processor:${mapStructVersion}"
+    testImplementation "org.instancio:instancio-junit:${instancioVersion}"
 
 }
 
 dependencyManagement {
-	imports {
-		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
-	}
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
 }
 
 tasks.named('test') {
-	useJUnitPlatform()
+    useJUnitPlatform()
 }
