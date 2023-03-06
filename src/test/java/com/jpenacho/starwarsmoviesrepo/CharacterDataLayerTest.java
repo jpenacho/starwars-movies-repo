@@ -1,9 +1,9 @@
 package com.jpenacho.starwarsmoviesrepo;
 
-import com.jpenacho.starwarsmoviesrepo.exception.ResourceNotFound;
 import com.jpenacho.starwarsmoviesrepo.datasource.repository.ExternalIdDatabaseService;
 import com.jpenacho.starwarsmoviesrepo.datasource.repository.character.CharacterEntity;
 import com.jpenacho.starwarsmoviesrepo.datasource.repository.character.CharacterRepository;
+import com.jpenacho.starwarsmoviesrepo.exception.ResourceNotFound;
 import org.instancio.Instancio;
 import org.instancio.Model;
 import org.junit.jupiter.api.Assertions;
@@ -63,6 +63,7 @@ public class CharacterDataLayerTest {
                 .consumeNextWith(updatedCharacterEntity -> {
                     AssertionUtils.assertEquals(updateCharacterEntity, updatedCharacterEntity, "id", "createdAt", "updatedAt");
                     Assertions.assertEquals(savedCharacterEntity.getId(), updatedCharacterEntity.getId());
+                    Assertions.assertNotNull(updateCharacterEntity.getUpdatedAt());
                     Assertions.assertEquals(0, AssertionUtils.compareOffSetDateTimes(savedCharacterEntity.getCreatedAt(), updatedCharacterEntity.getCreatedAt()));
                 })
                 .verifyComplete();

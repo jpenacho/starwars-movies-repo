@@ -1,8 +1,8 @@
 package com.jpenacho.starwarsmoviesrepo.datasource.repository.character;
 
-import com.jpenacho.starwarsmoviesrepo.exception.ResourceNotFound;
 import com.jpenacho.starwarsmoviesrepo.datasource.repository.ExternalIdDatabaseService;
 import com.jpenacho.starwarsmoviesrepo.datasource.repository.TransactionService;
+import com.jpenacho.starwarsmoviesrepo.exception.ResourceNotFound;
 import lombok.AccessLevel;
 import lombok.SneakyThrows;
 import lombok.experimental.FieldDefaults;
@@ -12,6 +12,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.time.OffsetDateTime;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -79,6 +80,7 @@ public class CharacterDatabaseServiceImpl
     }
 
     private CharacterEntity execSave(CharacterEntity newEntity) {
+        newEntity.setCreatedAt(OffsetDateTime.now());
         CharacterEntity savedCharacterEntity = characterRepository.save(newEntity);
         return CharacterEntityMappers.INSTANCE.map(savedCharacterEntity);
     }
@@ -94,11 +96,9 @@ public class CharacterDatabaseServiceImpl
         CharacterEntity characterEntity = characterRepository.findById(id)
                 .orElseThrow(ResourceNotFound::new);
 
-        CharacterEntity patchedCharacterEntity = CharacterEntityMappers.INSTANCE.updateEntity(characterEntity, updatedCharacterEntity);
+        CharacterEntityMappers.INSTANCE.updateEntity(characterEntity, updatedCharacterEntity);
 
-        patchedCharacterEntity = execSave(patchedCharacterEntity);
-
-        return CharacterEntityMappers.INSTANCE.map(patchedCharacterEntity);
+        return CharacterEntityMappers.INSTANCE.map(characterRepository.save(characterEntity));
     }
 
     @Override

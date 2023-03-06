@@ -10,12 +10,12 @@ import java.time.temporal.ChronoUnit;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class AssertionUtils {
 
-    public static <T, S> void assertEquals(T actual, S expected, String... fieldsToIgnore) {
-        Assertions.assertThat(actual)
+    public static <T, S> void assertEquals(T expected, S actual, String... fieldsToIgnore) {
+        Assertions.assertThat(expected)
                 .usingRecursiveComparison()
                 .withComparatorForType(AssertionUtils::compareOffSetDateTimes, OffsetDateTime.class)
                 .ignoringFields(fieldsToIgnore)
-                .isEqualTo(expected);
+                .isEqualTo(actual);
     }
 
     public static int compareOffSetDateTimes(OffsetDateTime actual, OffsetDateTime expected) {
