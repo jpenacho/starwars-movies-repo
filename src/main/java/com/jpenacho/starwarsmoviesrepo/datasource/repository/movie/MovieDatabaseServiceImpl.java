@@ -12,6 +12,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.time.OffsetDateTime;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -61,6 +62,7 @@ public class MovieDatabaseServiceImpl extends TransactionService implements Crud
     }
 
     private MovieEntity execSave(MovieEntity newMovieEntity) {
+        newMovieEntity.setCreatedAt(OffsetDateTime.now());
         MovieEntity savedMovieEntity = movieRepository.save(newMovieEntity);
         return MovieEntityMappers.INSTANCE.map(savedMovieEntity);
     }
@@ -77,9 +79,7 @@ public class MovieDatabaseServiceImpl extends TransactionService implements Crud
 
         MovieEntityMappers.INSTANCE.updateEntity(movieEntity, updatedMovieEntity);
 
-        MovieEntity patchedMovieEntity = execSave(movieEntity);
-
-        return MovieEntityMappers.INSTANCE.map(patchedMovieEntity);
+        return MovieEntityMappers.INSTANCE.map(movieRepository.save(movieEntity));
     }
 
     @Override

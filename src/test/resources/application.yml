@@ -9,7 +9,10 @@ spring:
   application:
     name: starwars-movies-repo
   webflux:
-    base-path: /api
+    base-path: /api/v1
+  profiles:
+    active:
+      - test
   datasource:
     url: jdbc:h2:mem:starwarsrepo
     username: sa
