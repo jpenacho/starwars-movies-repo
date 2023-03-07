@@ -6,11 +6,12 @@ plugins {
 }
 
 group = 'com.jpenacho.starwars-movie-repo'
-version = '0.0.1-SNAPSHOT'
+version = '1.0.0'
 sourceCompatibility = '17'
 
 configurations {
     all*.exclude module: 'spring-boot-starter-logging'
+
 
     compileOnly {
         extendsFrom annotationProcessor
