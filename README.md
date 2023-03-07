@@ -12,3 +12,9 @@ The following steps will help you run the service.
 The following guides illustrate how to make the service run:
 * gradle clean build test
 * java -jar build/libs/starwars-movies-repo-1.0.0.jar
+
+### API
+
+To see the API, check the next link:
+
+* [Star Wars Movies API](http://localhost:8080/api/v1/swagger-ui.html)
