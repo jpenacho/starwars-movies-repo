@@ -16,8 +16,8 @@ public interface CharacterMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "externalId", source = "url", qualifiedByName = "extractLastPathSegment")
-    @Mapping(target = "createdAt", source = "created")
-    @Mapping(target = "updatedAt", source = "edited")
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
     CharacterModel map(StarWarsPersonDto starWarsPersonDto);
 
     @Mapping(target = "movies", ignore = true)

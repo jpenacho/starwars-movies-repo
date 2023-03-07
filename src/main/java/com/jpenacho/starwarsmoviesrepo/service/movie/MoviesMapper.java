@@ -20,8 +20,8 @@ public interface MoviesMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "characters", source = "characters")
     @Mapping(target = "externalId", source = "starWarMovieDto.url", qualifiedByName = "extractExternalId")
-    @Mapping(target = "createdAt", source = "starWarMovieDto.created")
-    @Mapping(target = "updatedAt", source = "starWarMovieDto.edited")
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
     MovieModel create(StarWarMovieDto starWarMovieDto, Set<CharacterModel> characters);
 
     MovieEntity map(MovieModel movie);
